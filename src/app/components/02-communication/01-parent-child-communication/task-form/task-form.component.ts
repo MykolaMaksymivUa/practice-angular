@@ -1,5 +1,4 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-
 import { Task } from './../models/task.model';
 
 @Component({
@@ -24,6 +23,7 @@ export class TaskFormComponent {
     );
 
     this.addTask.emit(task);
+    console.log('F');
     console.log('add task method', task);
   }
 }

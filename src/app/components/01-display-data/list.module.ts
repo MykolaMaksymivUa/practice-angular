@@ -5,9 +5,9 @@ import { ListComponent } from './list/list.component';
 import { ListService } from './list.service';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [ListComponent],
-  providers: [ListService],
-  exports: [ListComponent]
+  imports: [ CommonModule ],
+  declarations: [ ListComponent ],
+  providers: [ ListService ],
+  exports: [ ListComponent ]
 })
 export class ListModule {}

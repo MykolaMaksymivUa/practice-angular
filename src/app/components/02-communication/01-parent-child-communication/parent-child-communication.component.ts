@@ -22,6 +22,7 @@ export class ParentChildCommunicationComponent implements OnInit {
   }
 
   onAddTask(task: Task): void {
+    console.log('Hello from parent');
     console.log('onAddTask method', task);
     this.tasks.push(task);
   }
