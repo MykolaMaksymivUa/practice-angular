@@ -35,6 +35,12 @@ export class ParentComponent implements AfterViewInit {
 
     console.log(this.childComp);
     console.log(this.children);
-    this.children.last.onClick();
+    console.log(this.inputField);
+  }
+
+  myCustomeMethod(list: QueryList<ChildComponent>): void {
+    list.forEach(el => {
+      el.onClick('Meow');
+    })
   }
 }

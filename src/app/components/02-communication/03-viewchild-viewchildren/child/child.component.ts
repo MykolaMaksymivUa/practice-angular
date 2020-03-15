@@ -6,7 +6,8 @@ import { Component, AfterViewInit } from '@angular/core';
   styleUrls: ['./child.component.css']
 })
 export class ChildComponent implements AfterViewInit {
-  onClick() {
+
+  onClick(text?: string) {
     console.log('Click method from child, called in Parent component');
   }
 
