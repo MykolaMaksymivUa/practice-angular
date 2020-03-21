@@ -27,7 +27,7 @@ export class AftersComponent
     AfterContentChecked,
     AfterViewInit,
     AfterViewChecked {
-  @Input() counter = 1;
+  @Input() counter: number = 1;
 
   constructor() {
     console.log('[Constructor]');

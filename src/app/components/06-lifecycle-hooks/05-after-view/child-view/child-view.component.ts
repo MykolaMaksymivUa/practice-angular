@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-child-view',
@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class ChildViewComponent {
   firstName = 'Vitaliy';
+  @Output() childClickName = new EventEmitter();
+  constructor(){}
+
+  childClick(event: Event): void {
+    this.childClickName.emit(this.firstName);
+  }
+
 }

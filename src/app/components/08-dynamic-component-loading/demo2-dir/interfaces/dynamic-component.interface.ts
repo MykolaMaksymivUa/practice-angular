@@ -2,5 +2,5 @@
 // они должны реализовывать этот интерфейс
 export interface DynamicComponent {
   data: string;
-  notify: () => void;
+  notify: (text?: object) => void;
 }

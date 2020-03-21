@@ -1,6 +1,7 @@
 import { Component, AfterViewChecked, AfterViewInit, ViewChild } from '@angular/core';
 
 import { ChildViewComponent } from './child-view/child-view.component';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-after-view',
@@ -28,4 +29,8 @@ export class AfterViewComponent implements AfterViewChecked, AfterViewInit {
     }
   }
 
+  evaluateChildClick(name: string) {
+    console.log(name);
+    console.log(arguments);
+  }
 }

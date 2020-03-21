@@ -62,6 +62,6 @@ export class ContainerComponent implements OnInit {
     (componentRef.instance as DynamicComponent).data = 'Data for Component';
 
     // Вызвать метод компонента
-    (componentRef.instance as DynamicComponent).notify();
+    (<DynamicComponent>componentRef.instance).notify(viewContainerRef);
   }
 }

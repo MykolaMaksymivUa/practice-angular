@@ -13,7 +13,7 @@ export class Component1Component implements DynamicComponent, OnDestroy {
     console.log('Component 1 is destroyed!!!');
   }
 
-  notify() {
-    console.log('Component 1 is loaded.');
+  notify(text) {
+    console.log(text);
   }
 }

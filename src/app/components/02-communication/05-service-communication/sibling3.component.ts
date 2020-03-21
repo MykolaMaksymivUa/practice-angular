@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { DataService } from './data.service';
 
@@ -38,7 +38,7 @@ import { DataService } from './data.service';
     `,
   ]
 })
-export class Sibling3Component {
+export class Sibling3Component implements OnInit {
   counter = 0;
   disabled: boolean = true;
   constructor(private dataService: DataService<string>) {}
@@ -48,7 +48,10 @@ export class Sibling3Component {
     this.disabled = !this.disabled;
     this.dataService.setData(`Data from sibling 1(${this.counter})`);
   }
+  
+  ngOnInit(){
 
+  }
   //change detection.
   get inputType(): string {
     return this.disabled ? 'text': 'password';
