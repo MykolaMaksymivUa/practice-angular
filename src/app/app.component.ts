@@ -1,19 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ChildDataService } from './services/child-data.service';
-import { DataService } from './services/data.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  providers: [
-    { provide: ChildDataService, useClass: DataService }
-  ]
 })
-export class AppComponent implements OnInit {
-  title = 'app works!';
-
-  constructor() {}
-
-  ngOnInit() {
-  }
+export class AppComponent {
+  title = 'Pipes Demo!';
 }

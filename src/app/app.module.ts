@@ -1,21 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { ComponentsModule } from './components/components.module';
-
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
+
+import { BuiltInPipesModule } from './01-built-in-pipes/built-in-pipes.module';
+import { UsePipeInCodeModule } from './02-use-pipe-in-code/use-pipe-in-code.module';
+import { UsePurePipeModule } from './03-use-pure-pipe/use-pure-pipe.module';
+import { UsePipeResultModule } from './04-use-pipe-result/use-pipe-result.module';
+
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    ComponentsModule,
-    BrowserAnimationsModule,
-    MatSliderModule,
+
+    BuiltInPipesModule,
+    UsePipeInCodeModule,
+    UsePurePipeModule,
+    UsePipeResultModule
   ],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
