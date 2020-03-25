@@ -1,15 +1,14 @@
 import { Component, OnInit, Inject, InjectionToken } from '@angular/core';
 
 import { ArrayDataService, adsInstance } from '../../services';
-
-const TITLE = new InjectionToken<string>('title');
+import { TITLE, titleVal } from './injection-value.service';
 
 @Component({
   selector: 'app-value-demo',
   templateUrl: './value-demo.component.html',
   styleUrls: ['./value-demo.component.css'],
   providers: [
-    { provide: TITLE, useValue: 'Application' },
+    { provide: TITLE, useValue: titleVal },
     { provide: ArrayDataService, useValue: adsInstance }
   ]
 })

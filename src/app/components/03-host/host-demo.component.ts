@@ -3,11 +3,7 @@ import { DataService } from '../../services';
 
 @Component({
   selector: 'app-host-demo',
-  template: `
-    <p appSomeDir>
-      host-demo works!
-    </p>
-  `,
+  templateUrl: './host-demo.component.html',
   providers: [DataService]
 })
 export class HostDemoComponent {}

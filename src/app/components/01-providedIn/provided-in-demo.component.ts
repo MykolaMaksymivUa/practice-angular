@@ -14,7 +14,11 @@ import { BookService } from './book.service';
 export class ProvidedInDemoComponent implements OnInit {
   // The size of main.js bundle is less when the service is not injected
   // constructor() { }
-  constructor(public bookService: BookService) {}
+  constructor(
+    public bookService: BookService,
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.bookService.printBookTitle();
+  }
 }

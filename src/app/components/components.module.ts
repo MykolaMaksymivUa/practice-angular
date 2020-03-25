@@ -55,7 +55,7 @@ import { DemoComponent } from './12-ngOnDestroy-demo/demo.component';
     MProviderDemoComponent,
     HostDemoComponent,
     ProvidedInDemoComponent,
-    NgOnDestroyComponent
+    NgOnDestroyComponent,
   ]
 })
 export class ComponentsModule {}

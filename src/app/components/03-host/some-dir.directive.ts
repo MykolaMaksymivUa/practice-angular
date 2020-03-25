@@ -15,6 +15,8 @@ export class SomeDirDirective implements OnInit {
   {}
 
   ngOnInit() {
+    debugger;
+    console.log(this.ds.getData());
     console.log(this.ds ? this.ds.getData() : 'null');
   }
 }
