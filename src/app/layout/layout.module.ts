@@ -1,15 +1,25 @@
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PathNotFoundComponent, HomeComponent, AboutComponent } from './components';
-
+import { PathNotFoundComponent, AboutComponent, NavigationMenuComponent } from './components';
+import { MatMenuModule } from '@angular/material/menu'
+import { MatIconModule } from '@angular/material/icon'
+import { MatTabsModule } from '@angular/material/tabs'
 @NgModule({
   declarations: [
-    HomeComponent,
     AboutComponent,
     PathNotFoundComponent,
+    NavigationMenuComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatTabsModule,
+    RouterModule
+  ],
+  exports: [
+    NavigationMenuComponent,
   ]
 })
 export class LayoutModule { }
