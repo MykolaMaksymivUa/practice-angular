@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router"
-import { PathNotFoundComponent, AboutComponent } from './layout/components';
+import { PathNotFoundComponent, AboutComponent, MessagesComponent } from './layout/components';
 
 const routes: Routes = [
   {
@@ -11,6 +11,11 @@ const routes: Routes = [
     path: '',
     redirectTo: '/home',
     pathMatch: 'full',
+  },
+  {
+    path: 'messages',
+    component: MessagesComponent,
+    outlet: 'messages'
   },
   {
     path: '**',

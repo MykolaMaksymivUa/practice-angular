@@ -46,6 +46,6 @@ testem.log
 Thumbs.db
 
 #docs
-#/docs
-#*.docx
-#*.pdf
+/docs
+*.docx
+*.pdf

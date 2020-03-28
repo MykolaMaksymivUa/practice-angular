@@ -1,22 +1,30 @@
-<div class="panel panel-default">
-  <div class="panel-heading">Task</div>
-  <div class="panel-body">
-    <ul>
-      <li>Action: {{ task.action }}</li>
-      <li>Priority: {{ task.priority }}</li>
-      <li>Estimate Hours: {{ task.estHours }}</li>
-      <li>Actual Hours: {{ task.actHours }}</li>
-      <li>Done: {{ task.done }}</li>
-    </ul>
-    <button
-      class="btn btn-primary btn-sm"
-      (click)="onCompleteTask()"
-      [disabled]="task.done"
-    >
-      Done
-    </button>
-    <button class="btn btn-warning btn-sm" (click)="onEditTask()">
-      Edit
-    </button>
-  </div>
-</div>
+<mat-expansion-panel style="margin-bottom: 16px;">
+  <mat-expansion-panel-header>
+    <mat-panel-title> Action item: {{ task.action }} </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-list>
+    <mat-list-item>Priority: {{ task.priority }}</mat-list-item>
+    <mat-list-item>Estimate Hours: {{ task.estHours }}</mat-list-item>
+    <mat-list-item>Actual Hours: {{ task.actHours }}</mat-list-item>
+    <mat-list-item>Done: {{ task.done }}</mat-list-item>
+  </mat-list>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onCompleteTask()"
+    [disabled]="task.done"
+  >
+    Done
+  </button>
+  <button mat-raised-button color="warn" (click)="onEditTask()">Edit</button>
+  <!-- <button
+    class="btn btn-primary btn-sm"
+    (click)="onCompleteTask()"
+    [disabled]="task.done"
+  >
+    Done
+  </button> -->
+  <!-- <button class="btn btn-warning btn-sm" (click)="onEditTask()">Edit</button> -->
+</mat-expansion-panel>
