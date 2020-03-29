@@ -1,15 +1,15 @@
-import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { LayoutModule } from './layout/layout.module';
 import { Router } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { LayoutModule } from './layout/layout.module';
 import { TasksModule } from './tasks/tasks.module';
-
-
-
+import { UsersModule } from './users/users.module';
+import { AdminModule } from './admin/admin.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,8 @@ import { TasksModule } from './tasks/tasks.module';
     LayoutModule,
     BrowserAnimationsModule,
     TasksModule,
+    UsersModule,
+    AdminModule,
     //MUST BE LAST
     AppRoutingModule,
   ],

@@ -1,0 +1,36 @@
+<h3>Admin</h3>
+<!-- <nav>
+  <ul class="nav nav-tabs">
+    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <a routerLink="./">Dashboard</a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="./tasks">Manage Tasks</a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="./users">Manage Users</a>
+    </li>
+  </ul>
+</nav> -->
+
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <a [routerLink]="['./']">Dashboard</a>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <a [routerLink]="['./users']">Manage Users</a>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <a [routerLink]="['./tasks']">Manage Tasks</a>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+
+<router-outlet></router-outlet>
