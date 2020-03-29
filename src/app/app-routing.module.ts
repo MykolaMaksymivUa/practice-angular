@@ -1,11 +1,15 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router"
-import { PathNotFoundComponent, AboutComponent, MessagesComponent } from './layout/components';
+import { PathNotFoundComponent, AboutComponent, MessagesComponent, LoginComponent } from './layout/components';
 
 const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: '',
