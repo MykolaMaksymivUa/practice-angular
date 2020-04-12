@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, UrlTree } from '@angular/router';
 
 // rxjs
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
 import { UserModel } from './../../models/user.model';
@@ -14,9 +14,10 @@ import { CanComponentDeactivate, DialogService } from './../../../core';
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.css'],
 })
-export class UserFormComponent implements OnInit, CanComponentDeactivate {
+export class UserFormComponent implements OnInit, CanComponentDeactivate, OnDestroy {
   user: UserModel;
   originalUser: UserModel;
+  private userSub: Subscription;
 
   constructor(
     private userArrayService: UserArrayService,
@@ -44,10 +45,14 @@ export class UserFormComponent implements OnInit, CanComponentDeactivate {
 
   ngOnInit(): void {
     console.log(this.activatedRoute.data);
-    this.activatedRoute.data.pipe(pluck('user')).subscribe((user: UserModel) => {
+    this.userSub = this.activatedRoute.data.pipe(pluck('user')).subscribe((user: UserModel) => {
       this.user = { ...user };
       this.originalUser = { ...user };
     });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
   }
 
   onSaveUser() {

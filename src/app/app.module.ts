@@ -10,6 +10,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
 import { AdminModule } from './admin/admin.module';
 import { AppRoutingModule } from './app-routing.module';
+import { SpinnerModule } from './widgets/spinner/spinner.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
     TasksModule,
     UsersModule,
     AdminModule,
+    SpinnerModule.forRoot(),
     //MUST BE LAST
     AppRoutingModule,
   ],

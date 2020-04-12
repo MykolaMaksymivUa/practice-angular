@@ -10,7 +10,8 @@ import { Observable, of } from "rxjs";
 import { UserModel } from "../models/user.model";
 import { UserArrayService } from "./../services";
 import { UsersServicesModule } from "../users-services.module";
-import { map, take, catchError } from "rxjs/operators";
+import { map, take, catchError, delay, finalize } from "rxjs/operators";
+import { SpinnerService } from './../../widgets';
 
 @Injectable({
   providedIn: UsersServicesModule,
@@ -18,22 +19,24 @@ import { map, take, catchError } from "rxjs/operators";
 export class UserResolveGuard implements Resolve<UserModel> {
   constructor(
     private userArrayService: UserArrayService,
-    private router: Router
+    private router: Router,
+    private spinner: SpinnerService
   ) { }
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): UserModel | Observable<UserModel> | Promise<UserModel> {
-    console.log("UserResolve Guard is called");
 
     if (!route.paramMap.has("userID")) {
       return of(new UserModel(null, "", ""));
     }
 
+    this.spinner.show();
     const id = +route.paramMap.get("userID");
 
     return this.userArrayService.getUser(id).pipe(
+      delay(2000),
       map((user: UserModel) => {
         if (user) {
           return user;
@@ -47,7 +50,8 @@ export class UserResolveGuard implements Resolve<UserModel> {
         this.router.navigate(["/users"]);
         // catchError MUST return observable
         return of(null);
-      })
+      }),
+      finalize(() => this.spinner.hide())
     );
   }
 }

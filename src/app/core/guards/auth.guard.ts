@@ -6,6 +6,7 @@ import {
   UrlTree,
   Router,
   CanActivateChild,
+  NavigationExtras,
 } from "@angular/router";
 import { Observable } from "rxjs";
 import { AuthService } from "../services";
@@ -48,7 +49,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     }
 
     this.authService.redirectUrl = url;
+    const sessionID = 19234;
+    const navigationExtras: NavigationExtras = {
+      queryParams: { sessionID },
+      fragment: 'anchor',
+    }
 
-    return this.router.parseUrl("/login");
+    this.router.navigate(['/login'], navigationExtras);
+    return false;
   }
 }
