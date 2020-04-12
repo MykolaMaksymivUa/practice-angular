@@ -44,7 +44,6 @@ export class UserFormComponent implements OnInit, CanComponentDeactivate, OnDest
   }
 
   ngOnInit(): void {
-    console.log(this.activatedRoute.data);
     this.userSub = this.activatedRoute.data.pipe(pluck('user')).subscribe((user: UserModel) => {
       this.user = { ...user };
       this.originalUser = { ...user };

@@ -8,7 +8,7 @@ import { UserResolveGuard } from '.';
 
 const routes: Routes = [
   {
-    path: 'users',
+    path: '',
     component: UsersComponent,
     children: [
       {

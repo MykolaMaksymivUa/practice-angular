@@ -7,7 +7,7 @@ import { AdminDashboardComponent, ManageTasksComponent, ManageUsersComponent } f
 
 
 const routes: Routes = [{
-  path: 'admin',
+  path: '',
   component: AdminComponent,
   canActivate: [AuthGuard],
   children: [
