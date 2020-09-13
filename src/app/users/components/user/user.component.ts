@@ -9,9 +9,14 @@ import { UserModel } from '../../models/user.model';
 })
 export class UserComponent {
   @Input() user: UserModel;
-  @Output() onUserEdit = new EventEmitter<UserModel>();
+  @Output() editUser = new EventEmitter<UserModel>();
+  @Output() deleteUser = new EventEmitter<UserModel>();
 
   onEditUser() {
-    this.onUserEdit.emit(this.user);
+    this.editUser.emit(this.user);
+  }
+
+  onDeleteUser() {
+    this.deleteUser.emit(this.user);
   }
 }

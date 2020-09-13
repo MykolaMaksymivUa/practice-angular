@@ -1,0 +1,10 @@
+.divider {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-top: 1px solid black;
+}
+
+.full-width {
+  height: auto;
+  width: 100%;
+}

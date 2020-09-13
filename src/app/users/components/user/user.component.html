@@ -1,15 +1,24 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    Last edited:
-    <span class="user__edited-time">{{ user.lastEdited | date: "short" }}</span>
-  </div>
-  <div class="panel-body">
-    <ul>
-      <li>FirstName: {{ user.firstName }}</li>
-      <li>LastName: {{ user.lastName }}</li>
-    </ul>
-    <button class="btn btn-warning btn-sm" (click)="onEditUser()">
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> User: {{ user.firstName }} </mat-panel-title>
+      <mat-panel-description>
+        Last edited:
+        <span class="user__edited-time">{{
+          user.lastEdited | date: "short"
+        }}</span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p><b>FirstName:</b> {{ user.firstName }}</p>
+    <p><b>LastName:</b> {{ user.lastName }}</p>
+
+    <button mat-raised-button color="accent" (click)="onEditUser()">
       Edit
     </button>
-  </div>
-</div>
+
+    <button mat-raised-button color="warn" (click)="onDeleteUser()">
+      Delete
+    </button>
+  </mat-expansion-panel>
+</mat-accordion>
+<br />

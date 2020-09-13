@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersServicesModule } from './users-services.module';
 import { UserComponent } from './components';
+import { LayoutModule } from './../layout/layout.module';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { UserComponent } from './components';
     CommonModule,
     UsersServicesModule,
     FormsModule,
+    LayoutModule,
     UsersRoutingModule,
   ]
 })

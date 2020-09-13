@@ -1,7 +1,7 @@
 import { TaskListComponent, TaskFormComponent } from './components';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MetaDefinition } from '@angular/platform-browser';
+import { MetaDefinition, Title } from '@angular/platform-browser';
 
 const metaTags: Array<MetaDefinition> = [
   {
@@ -24,9 +24,21 @@ const routes: Routes = [
       meta: metaTags
     },
   },
+
   {
     path: 'edit/:taskID',
     component: TaskFormComponent,
+    data: {
+      title: 'Edit Task'
+    }
+  },
+
+  {
+    path: 'add',
+    component: TaskFormComponent,
+    data: {
+      title: 'Create new task'
+    }
   }
 ];
 

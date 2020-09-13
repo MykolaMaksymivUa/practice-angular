@@ -37,8 +37,8 @@ export class TaskArrayService {
     }
   }
 
-  deleteTask(task: TaskModel): void {
-    const i = taskList.findIndex(t => t.id === task.id);
+  deleteTask(id: number): void {
+    const i = taskList.findIndex(t => t.id === id);
 
     if (i > -1) {
       taskList.splice(i, 1);

@@ -1,10 +1,11 @@
+import { httpInterceptorProviders } from './core/interceptors/index';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import { TasksModule } from './tasks/tasks.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,14 +17,16 @@ import { SpinnerModule } from './widgets/spinner/spinner.module';
   ],
   imports: [
     BrowserModule,
-    LayoutModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    LayoutModule,
     TasksModule,
     SpinnerModule.forRoot(),
     //MUST BE LAST
     AppRoutingModule,
   ],
   providers: [
+    httpInterceptorProviders,
   ],
   bootstrap: [AppComponent]
 })
