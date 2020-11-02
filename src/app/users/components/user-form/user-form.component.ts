@@ -19,7 +19,6 @@ export class UserFormComponent implements OnInit, CanComponentDeactivate, OnDest
   user: UserModel;
   originalUser: UserModel;
   private userSub: Subscription;
-
   constructor(
     private userObsService: UserObservableService,
     private activatedRoute: ActivatedRoute,

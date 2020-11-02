@@ -10,6 +10,9 @@ import { LayoutModule } from './layout/layout.module';
 import { TasksModule } from './tasks/tasks.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SpinnerModule } from './widgets/spinner/spinner.module';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { SpinnerModule } from './widgets/spinner/spinner.module';
     SpinnerModule.forRoot(),
     //MUST BE LAST
     AppRoutingModule,
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     httpInterceptorProviders,
