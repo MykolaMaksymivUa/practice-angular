@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UsersComponent } from './users.component';
 import { UserFormComponent, UserListComponent } from './components';
-import { UserResolveGuard } from '.';
+import { UserResolveGuard, UsersStatePreloadingGuard } from '.';
 
 
 const routes: Routes = [
@@ -14,18 +14,22 @@ const routes: Routes = [
       {
         path: 'add',
         component: UserFormComponent,
+        // resolve: {
+        //   user: UserResolveGuard
+        // }
       },
       {
         path: 'edit/:userID',
         component: UserFormComponent,
         canDeactivate: [CanDeactivateGuard],
-        resolve: {
-          user: UserResolveGuard
-        }
+        // resolve: {
+        //   user: UserResolveGuard
+        // }
       },
       {
         path: '',
         component: UserListComponent,
+        canActivate: [UsersStatePreloadingGuard],
       }
     ]
 

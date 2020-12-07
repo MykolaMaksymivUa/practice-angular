@@ -1,57 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { TaskModel } from './../../models/task.model';
-import { TaskPromiseService } from './../../';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Task, TaskModel } from './../../models/task.model';
+import { Router } from '@angular/router';
 
-import { switchMap } from 'rxjs/operators'
+// @NgRx
+import { Store, select } from '@ngrx/store';
+import { AppState } from './../../../core/@ngrx';
+import * as TasksActions from './../../../core/@ngrx/tasks/tasks.actions';
+import { selectSelectedTaskByUrl } from './../../../core/@ngrx/tasks/tasks.selectors';
+import * as RouterActions from './../../../core/@ngrx/router/router.actions';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 @Component({
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.css']
 })
-export class TaskFormComponent implements OnInit {
+export class TaskFormComponent implements OnInit, OnDestroy {
   task: TaskModel;
+  private componentDestroyed$: Subject<void> = new Subject<void>();
 
   constructor(
-    private taskPromiseService: TaskPromiseService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
+    private store: Store<AppState>,
   ) { }
 
   ngOnInit(): void {
-    this.task = new TaskModel();
-    const obs = {
-      next: (task: TaskModel): TaskModel => {
-        return this.task = { ...task }
+    const observer: any = {
+      next: (task: TaskModel) => {
+        this.task = { ...task };
       },
-      error: (error: Error): void => {
-        return console.error(error);
+      error(err) {
+        console.log(err);
+      },
+      complete() {
+        console.log('Stream is completed');
       }
-    }
+    };
 
-    this.activatedRoute.paramMap
+    this.store
       .pipe(
-        switchMap((params: ParamMap) => {
-          const existingTask = params.get('taskID');
-
-          return existingTask
-            ? this.taskPromiseService.getTask(+existingTask)
-            : Promise.resolve(null)
-        })
+        select(selectSelectedTaskByUrl),
+        takeUntil(this.componentDestroyed$)
       )
-      .subscribe(obs);
+      .subscribe(observer);
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroyed$.next();
+    this.componentDestroyed$.complete();
   }
 
   onSaveTask() {
-    const task = { ...this.task } as TaskModel;
+    const task = { ...this.task } as Task;
 
-    const method = task.id ? 'updateTask' : 'createTask';
-    this.taskPromiseService[method](task)
-      .then(() => this.onGoBack())
-      .catch(err => console.error(err));
+    if (task.id) {
+      this.store.dispatch(TasksActions.updateTask({ task }));
+    } else {
+      this.store.dispatch(TasksActions.createTask({ task }));
+    }
   }
 
   onGoBack(): void {
-    this.router.navigate(['/home']);
+    this.store.dispatch(RouterActions.go({
+      path: ['/home']
+    }));
   }
 }

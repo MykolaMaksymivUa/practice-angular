@@ -13,7 +13,7 @@ import { SpinnerService } from './spinner.service';
   exports: [SpinnerComponent]
 })
 export class SpinnerModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SpinnerModule> {
     return {
       ngModule: SpinnerModule,
       providers: [SpinnerService],

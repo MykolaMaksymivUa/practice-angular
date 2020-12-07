@@ -1,92 +1,85 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, UrlTree } from '@angular/router';
-import { Location } from '@angular/common';
+import { ActivatedRoute, UrlTree } from '@angular/router';
 
 // rxjs
-import { Observable, Subscription } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { pluck, switchMap } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
 
-import { UserModel } from './../../models/user.model';
-import { UserObservableService } from './../../';
-
+import { User, UserModel } from './../../models/user.model';
 import { CanComponentDeactivate, DialogService, AutoUnsubscribe } from './../../../core';
-// @AutoUnsubscribe('userSub')
+
+// @Ngrx
+import { Store, select } from '@ngrx/store';
+import { selectSelectedUserByUrl, selectUsersOriginalUser } from './../../../core/@ngrx';
+import * as UsersActions from './../../../core/@ngrx/users/users.actions';
+import * as RouterActions from './../../../core/@ngrx/router/router.actions';
+
 @Component({
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.css'],
 })
+@AutoUnsubscribe()
 export class UserFormComponent implements OnInit, CanComponentDeactivate, OnDestroy {
   user: UserModel;
-  originalUser: UserModel;
-  private userSub: Subscription;
+  private sub: Subscription;
+
   constructor(
-    private userObsService: UserObservableService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
+    // private activatedRoute: ActivatedRoute,
     private dialogService: DialogService,
-    private location: Location,
+    private store: Store,
   ) { }
 
   canDeactivate(): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    const flags = Object.keys(this.originalUser).map(key => {
-      // @refactor it.
-      this.user.lastEdited = this.originalUser.lastEdited;
+    const flags = [];
 
-      if (this.originalUser[key] === this.user[key]) {
-        return true;
-      }
-      return false;
-    });
+    return this.store.pipe(
+      select(selectUsersOriginalUser),
+      switchMap(originalUser => {
+        for (const key in originalUser) {
+          if (originalUser[key] === this.user[key]) {
+            flags.push(true);
+          } else {
+            flags.push(false);
+          }
+        }
 
-    if (flags.every(el => el)) {
-      return true;
-    }
+        if (flags.every(el => el)) {
+          return of(true);
+        }
 
-    // Otherwise ask the user with the dialog service and return its
-    // promise which resolves to true or false when the user decides
-    return this.dialogService.confirm('Discard changes?');
+        // Otherwise ask the user with the dialog service and return its
+        // promise which resolves to true or false when the user decides
+        return this.dialogService.confirm('Discard changes?');
+      })
+    );
+
   }
 
   ngOnInit(): void {
-    this.userSub = this.activatedRoute.data.pipe(pluck('user')).subscribe((user: UserModel) => {
-      this.user = { ...user };
-      this.originalUser = { ...user };
-    });
+    // this.activatedRoute.data.pipe(pluck('user')).subscribe((user: UserModel) => {
+    //   this.user = { ...user };
+    // });
+    this.sub = this.store.pipe(select(selectSelectedUserByUrl))
+      .subscribe(user => this.user = { ...user });
+
   }
 
   ngOnDestroy(): void {
-    this.userSub.unsubscribe();
+    // this.userSub.unsubscribe();
+    console.log('Original destroy');
   }
 
   onSaveUser() {
-    const user = { ...this.user };
-    const userId = user.id;
+    const user = { ...this.user } as User;
+    if (user.id) {
+      this.store.dispatch(UsersActions.updateUser({ user }));
+    } else {
+      this.store.dispatch(UsersActions.createUser({ user }));
+    }
 
-    // if (user.id) {
-    //   this.userObsService.updateUser(user);
-    //   this.router.navigate(['/users', { editedUserID: user.id }]);
-    // } else {
-    //   this.userObsService.createUser(user);
-    //   this.onGoBack();
-    // }
-    // this.originalUser = { ...this.user };
-
-    const method = user.id ? 'updateUser' : 'createUser';
-    const observer = {
-      next: (savedUser: UserModel) => {
-        this.originalUser = { ...savedUser };
-        userId
-          ? this.router.navigate(['/users', { editedUserID: userId }])
-          : this.onGoBack();
-      }
-    };
-
-    this.userSub = this.userObsService[method](user).subscribe(observer);
   }
 
   onGoBack() {
-    // activated route: users/edit/userID
-    // this.router.navigate(['./../../'], { relativeTo: this.activatedRoute });
-    this.location.back();
+    this.store.dispatch(RouterActions.back());
   }
 }

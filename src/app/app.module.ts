@@ -1,4 +1,3 @@
-import { httpInterceptorProviders } from './core/interceptors/index';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,6 +12,8 @@ import { SpinnerModule } from './widgets/spinner/spinner.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RootStoreModule } from './core/@ngrx/root-store.module';
+import { httpInterceptorProviders } from './core/interceptors/index';
 
 @NgModule({
   declarations: [
@@ -25,11 +26,12 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     LayoutModule,
     TasksModule,
     SpinnerModule.forRoot(),
+    // StoreModule.forRoot({}, {}),
+    // EffectsModule.forRoot([]),
+    // StoreRouterConnectingModule.forRoot(),
+    RootStoreModule,
     //MUST BE LAST
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
-    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     httpInterceptorProviders,
@@ -40,6 +42,6 @@ export class AppModule {
   constructor(router: Router) {
     const replacer = (key: string, value: any): string => typeof value === 'function' ? value.name : value;
 
-    console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
+    // console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
   }
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
+import { Store } from '@ngrx/store';
+import * as RouterActions from './../../../core/@ngrx/router/router.actions';
+
 // rxjs
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -19,8 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     public authService: AuthService,
-    private router: Router
-
+    private store: Store,
   ) { }
 
   ngOnInit(): void {
@@ -48,7 +50,11 @@ export class LoginComponent implements OnInit, OnDestroy {
             preserveFragment: true,
           }
           // Redirect the user
-          this.router.navigate([redirect], navigationExtras);
+          this.store.dispatch(RouterActions.go({
+            path: [redirect],
+            extras: navigationExtras
+          }));
+
         }
       },
       error: (err: any) => console.log(err),

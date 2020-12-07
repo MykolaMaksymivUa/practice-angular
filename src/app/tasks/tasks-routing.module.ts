@@ -2,6 +2,7 @@ import { TaskListComponent, TaskFormComponent } from './components';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MetaDefinition, Title } from '@angular/platform-browser';
+import { TasksStatePreloadingGuard, TaskExistsGuard } from './guards';
 
 const metaTags: Array<MetaDefinition> = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
   {
     path: 'home',
     component: TaskListComponent,
+    canActivate: [TasksStatePreloadingGuard],
     data: {
       title: 'Task manager',
       meta: metaTags
@@ -28,6 +30,7 @@ const routes: Routes = [
   {
     path: 'edit/:taskID',
     component: TaskFormComponent,
+    canActivate: [TaskExistsGuard],
     data: {
       title: 'Edit Task'
     }

@@ -8,3 +8,10 @@ export class UserModel {
   ) {
   }
 }
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  age?: number | string;
+  lastEdited?: Date | string;
+}

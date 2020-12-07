@@ -11,14 +11,24 @@ import {
   Route,
   UrlSegment,
 } from "@angular/router";
+
 import { Observable } from "rxjs";
+
 import { AuthService } from "../services";
+
+// @Ngrx
+import { Store } from '@ngrx/store';
+import * as RouterActions from './../@ngrx/router/router.actions';
+
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private store: Store
+  ) { }
 
   canLoad(route: Route, segments: UrlSegment[]): boolean | Observable<boolean> | Promise<boolean> {
     console.log('CanLoad GUARD');
@@ -63,7 +73,11 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       fragment: 'anchor',
     }
 
-    this.router.navigate(['/login'], navigationExtras);
+    this.store.dispatch(RouterActions.go({
+      path: ['/login'],
+      extras: navigationExtras
+    }));
+
     return false;
   }
 }

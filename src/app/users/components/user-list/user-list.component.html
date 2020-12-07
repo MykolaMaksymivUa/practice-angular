@@ -5,3 +5,5 @@
   (deleteUser)="onUserDelete($event)"
 >
 </app-user>
+
+<p *ngIf="usersError$ | async as errorMessage">{{ errorMessage }}</p>

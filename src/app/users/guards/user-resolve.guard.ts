@@ -1,53 +1,55 @@
 import { Injectable } from "@angular/core";
 import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
   Resolve,
-  Router,
 } from "@angular/router";
+
 import { Observable, of } from "rxjs";
+import { map, take, catchError, delay, finalize, tap } from "rxjs/operators";
 
 import { UserModel } from "../models/user.model";
-import { UserObservableService } from './../';
 import { UsersServicesModule } from "../users-services.module";
-import { map, take, catchError, delay, finalize } from "rxjs/operators";
 import { SpinnerService } from './../../widgets';
+
+import { Store, select } from '@ngrx/store';
+import { selectSelectedUserByUrl } from './../../core/@ngrx';
+import * as UsersActions from './../../core/@ngrx/users/users.actions';
+import * as RouterActions from '../../core/@ngrx/router/router.actions';
+
 
 @Injectable({
   providedIn: UsersServicesModule,
 })
 export class UserResolveGuard implements Resolve<UserModel> {
   constructor(
-    private userObsService: UserObservableService,
-    private router: Router,
-    private spinner: SpinnerService
+    private store: Store,
+    private spinner: SpinnerService,
   ) { }
 
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): UserModel | Observable<UserModel> | Promise<UserModel> {
-
-    if (!route.paramMap.has("userID")) {
-      return of(new UserModel(null, "", ""));
-    }
-
+  resolve(): Observable<UserModel> | null {
+    console.log('UserResolve Guard is called');
     this.spinner.show();
-    const id = +route.paramMap.get("userID");
 
-    return this.userObsService.getUser(id).pipe(
+    return this.store.pipe(
+      select(selectSelectedUserByUrl),
+      tap(user => this.store.dispatch(UsersActions.setOriginalUser({ user }))),
       delay(2000),
       map((user: UserModel) => {
         if (user) {
           return user;
         } else {
-          this.router.navigate(["/users"]);
+          this.store.dispatch(RouterActions.go({
+            path: ['/users']
+          }));
+
           return null;
         }
       }),
       take(1),
       catchError(() => {
-        this.router.navigate(["/users"]);
+        this.store.dispatch(RouterActions.go({
+          path: ['/users']
+        }));
+
         // catchError MUST return observable
         return of(null);
       }),

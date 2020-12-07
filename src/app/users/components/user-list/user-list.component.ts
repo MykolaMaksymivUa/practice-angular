@@ -1,55 +1,59 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 // rxjs
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators'
+import { Observable, Subscription } from 'rxjs';
 
-import { UserModel } from '../../models/user.model';
-import { UserArrayService, UserObservableService } from '../../';
+import { Store, select } from '@ngrx/store';
+import * as UsersActions from './../../../core/@ngrx/users/users.actions';
+import * as RouterActions from './../../../core/@ngrx/router/router.actions';
+import { selectUsers, selectUsersError, selectEditedUser } from './../../../core/@ngrx';
 
+
+import { AutoUnsubscribe } from 'src/app/core';
+import { User, UserModel } from '../../models/user.model';
 @Component({
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
+@AutoUnsubscribe('subscription')
 export class UserListComponent implements OnInit {
   users$: Observable<Array<UserModel>>;
   editedUser: UserModel;
+  usersError$: Observable<Error | string>;
+  private subscription: Subscription;
+
 
   constructor(
-    private userArrayService: UserArrayService,
-    private userObsService: UserObservableService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
+    private store: Store,
   ) { }
 
   ngOnInit() {
-    this.users$ = this.userObsService.getUsers();
 
-    const obs = {
-      next: (user: UserModel) => {
+    this.users$ = this.store.pipe(select(selectUsers));
+    this.usersError$ = this.store.pipe(select(selectUsersError));
+    // this.store.dispatch(UsersActions.getUsers());
+
+    this.subscription = this.store.pipe(select(selectEditedUser)).subscribe({
+      next: user => {
         this.editedUser = { ...user };
-        // this.editedUser.lastEdited = new Date();
-        // this.userArrayService.updateUser(this.editedUser);
+        console.log(
+          `Last time you edited user ${JSON.stringify(this.editedUser)}`
+        );
       },
-      error: (err) => console.log(err)
-    }
-
-    this.activatedRoute.paramMap.pipe(
-      switchMap((params: ParamMap) => {
-        return params.get('editedUserID')
-          ? this.userObsService.getUser(+params.get('editedUserID'))
-          : of(null);
-      })
-    ).subscribe(obs);
+      error: err => console.log(err)
+    });
   }
 
   onUserEdit(user: UserModel) {
-    const link = ['edit', user.id];
-    this.router.navigate(link, { relativeTo: this.activatedRoute });
+    const link = ['users/edit', user.id];
+    this.store.dispatch(RouterActions.go({
+      path: link
+    }));
   }
 
   onUserDelete(user: UserModel) {
-    this.users$ = this.userObsService.deleteUser(user);
+    const userToDelete: User = { ...user };
+    this.store.dispatch(UsersActions.deleteUser({ user: userToDelete }));
+
   }
 }

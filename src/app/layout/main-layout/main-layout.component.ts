@@ -3,6 +3,9 @@ import { RouterOutlet, Router } from '@angular/router';
 import { MessagesService } from '../../core';
 import { Title, Meta } from '@angular/platform-browser';
 
+import * as RouterActions from '../../core/@ngrx/router/router.actions';
+import { Store } from '@ngrx/store';
+
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
@@ -11,15 +14,14 @@ import { Title, Meta } from '@angular/platform-browser';
 export class MainLayoutComponent implements OnInit {
   constructor(
     public messagesService: MessagesService,
-    private router: Router,
     private titleService: Title,
-    private metaService: Meta
+    private metaService: Meta,
+    private store: Store,
   ) { }
 
   ngOnInit() { }
 
   onActivate(event: any, routerOutlet: RouterOutlet): void {
-    console.log(routerOutlet);
     this.titleService.setTitle(routerOutlet.activatedRouteData.title);
     this.metaService.addTags(routerOutlet.activatedRouteData.meta);
   }
@@ -28,7 +30,10 @@ export class MainLayoutComponent implements OnInit {
   }
 
   onDisplayMessages() {
-    this.router.navigate([{ outlets: { messages: ['messages'] } }]);
+    this.store.dispatch(RouterActions.go({
+      path: [{ outlets: { messages: ['messages'] } }]
+    }));
+
     this.messagesService.isDisplayed = true;
   }
 }

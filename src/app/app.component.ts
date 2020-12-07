@@ -23,8 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    console.log('MODULES:');
-    console.log(this.preloadStrategy.preloadedModules);
+    // console.log(this.preloadStrategy.preloadedModules);
 
     // this.setPageTitle();
   }

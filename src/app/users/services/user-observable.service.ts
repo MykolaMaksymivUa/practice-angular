@@ -42,8 +42,8 @@ export class UserObservableService {
   }
 
   updateUser(user: UserModel) {
+
     const url = `${this.usersUrl}/${user.id}`;
-    user.lastEdited = new Date();
     const body = JSON.stringify(user);
     const options = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
